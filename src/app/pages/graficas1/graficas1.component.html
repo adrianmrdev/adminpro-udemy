@@ -1,1 +1,52 @@
-<p>graficas1 works!</p>
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <app-doughnutchart
+                    [data]="graficos.grafico1.data"
+                    [labels]="graficos.grafico1.labels"
+                    [legend]="graficos.grafico1.leyenda"
+                    [type]="graficos.grafico1.type">
+                </app-doughnutchart>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <app-doughnutchart
+                    [data]="graficos.grafico2.data"
+                    [labels]="graficos.grafico2.labels"
+                    [legend]="graficos.grafico2.leyenda"
+                    [type]="graficos.grafico2.type">
+                </app-doughnutchart>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <app-doughnutchart
+                    [data]="graficos.grafico3.data"
+                    [labels]="graficos.grafico3.labels"
+                    [legend]="graficos.grafico3.leyenda"
+                    [type]="graficos.grafico3.type">
+                </app-doughnutchart>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <app-doughnutchart
+                    [data]="graficos.grafico4.data"
+                    [labels]="graficos.grafico4.labels"
+                    [legend]="graficos.grafico4.leyenda"
+                    [type]="graficos.grafico4.type">
+                </app-doughnutchart>
+            </div>
+        </div>
+    </div>
+</div>
