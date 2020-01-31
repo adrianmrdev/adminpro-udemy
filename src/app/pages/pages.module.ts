@@ -15,6 +15,7 @@ import { ChartsModule } from 'ng2-charts';
 //temporal
 import { IncrementComponent } from '../components/increment/increment.component';
 import { DoughnutchartComponent } from '../components/doughnutchart/doughnutchart.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import { DoughnutchartComponent } from '../components/doughnutchart/doughnutchar
         ProgressComponent,
         Graficas1Component,
         IncrementComponent,
-        DoughnutchartComponent
+        DoughnutchartComponent,
+        AccountSettingsComponent
     ],
     exports: [
         DashboardComponent,
