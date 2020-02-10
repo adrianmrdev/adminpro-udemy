@@ -11,6 +11,7 @@ import { PAGES_ROUTES } from './pages.routes';
 //Modulos
 import { SharedModule } from '../shared/shared.module';
 import { ChartsModule } from 'ng2-charts';
+import { PipesModule } from '../pipes/pipes.module';
 
 //temporal
 import { IncrementComponent } from '../components/increment/increment.component';
@@ -18,6 +19,8 @@ import { DoughnutchartComponent } from '../components/doughnutchart/doughnutchar
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
+import { ProfileComponent } from './profile/profile.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
     declarations: [
@@ -29,7 +32,8 @@ import { RxjsComponent } from './rxjs/rxjs.component';
         DoughnutchartComponent,
         AccountSettingsComponent,
         PromisesComponent,
-        RxjsComponent
+        RxjsComponent,
+        ProfileComponent
     ],
     exports: [
         DashboardComponent,
@@ -37,10 +41,12 @@ import { RxjsComponent } from './rxjs/rxjs.component';
         Graficas1Component
     ],
     imports: [
+        CommonModule,
         SharedModule,
         PAGES_ROUTES,
         FormsModule,
-        ChartsModule
+        ChartsModule,
+        PipesModule
     ]
 })
 
