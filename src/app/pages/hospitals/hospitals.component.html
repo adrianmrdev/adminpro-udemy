@@ -1,0 +1,73 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <input #input (keyup)="searchHospital( input.value )" type="text" class="form-control" placeholder="Search hospital...">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="loading" class="row animated fadeIn">
+
+    <div class="col-sm-12">
+        <div class="alert alert-warning text-center">
+            <strong>Loading</strong>
+            <br>
+            <em class="fa fa-refresh fa-spin fa-2x"></em>
+            <br>
+            <span>Wait please</span>
+        </div>
+    </div>
+
+</div>
+
+<div *ngIf="!loading" class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="text-right">
+                    <button (click)="createHospital()" class="btn waves-effect btn-rounded btn-primary">
+                        <em class="fa fa-plus"></em> Create hospital
+                    </button>
+                </div>
+
+                <h3 class="card-title">Hospitals registered ( <small>{{ totalHospitals }}</small> )</h3>
+
+                <table class="table table-hover">
+                    <thead>
+                        <th>Image</th>
+                        <th>Name</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let hospital of hospitals">
+                            <td class="w70">
+                                <img (click)="showModal( hospital._id )" [src]="hospital.img | image: 'hospital'" class="img-50 img-circle pointer" alt="Hospital image">
+                            </td>
+                            <td>
+                                <input #name name="name" class="form-control" [(ngModel)]="hospital.name">
+                            </td>
+                            <td>
+                                <button (click)="saveHospital( hospital )" class="btn btn-primary">
+                                    <em class="fa fa-save"></em>
+                                </button>
+                                <button (click)="deleteHospital( hospital )" class="btn btn-danger">
+                                    <em class="fa fa-trash-o"></em>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button (click)="changeFrom(-5)" class="btn btn-secondary">
+                    Previous
+                </button>
+                <button (click)="changeFrom(5)" class="btn btn-secondary">
+                    Next
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

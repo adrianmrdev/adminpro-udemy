@@ -5,6 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { SettingsService, SharedService, SidebarService, UserService, LoginGuard } from './service.index';
 import { UploadFileService } from './uploadFile/upload-file.service';
 import { ModalUploadService } from '../components/modal-upload/modal-upload.service';
+import { HospitalService } from './hospital/hospital.service';
+import { DoctorService } from './doctor/doctor.service';
 
 @NgModule({
   declarations: [],
@@ -19,6 +21,8 @@ import { ModalUploadService } from '../components/modal-upload/modal-upload.serv
     UserService,
     LoginGuard,
     UploadFileService,
+    HospitalService,
+    DoctorService,
     ModalUploadService
   ]
 })

@@ -7,9 +7,12 @@ import { Graficas1Component } from './graficas1/graficas1.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
-import { LoginGuard } from '../services/service.index';
+import { LoginGuard, DoctorService } from '../services/service.index';
 import { ProfileComponent } from './profile/profile.component';
 import { UsersComponent } from './users/users.component';
+import { HospitalsComponent } from './hospitals/hospitals.component';
+import { DoctorsComponent } from './doctors/doctors.component';
+import { DoctorComponent } from './doctors/doctor.component';
 
 const pagesRoutes: Routes = [
     { 
@@ -27,6 +30,9 @@ const pagesRoutes: Routes = [
 
             // Maintenance
             { path: 'users', component: UsersComponent, data: {title: 'Users Maintence'} },
+            { path: 'hospitals', component: HospitalsComponent, data: {title: 'Hospitals Maintence'} },
+            { path: 'doctors', component: DoctorsComponent, data: {title: 'Doctors Maintence'} },
+            { path: 'doctor/:id', component: DoctorComponent, data: {title: 'Update Doctor'} },
             { path: '', redirectTo: '/dashboard', pathMatch: 'full'},
         ]
     }

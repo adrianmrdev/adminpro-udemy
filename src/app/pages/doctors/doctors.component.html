@@ -1,0 +1,78 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <input #input (keyup)="searchDoctor( input.value )" type="text" class="form-control" placeholder="Search doctor...">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="loading" class="row animated fadeIn">
+
+    <div class="col-sm-12">
+        <div class="alert alert-warning text-center">
+            <strong>Loading</strong>
+            <br>
+            <em class="fa fa-refresh fa-spin fa-2x"></em>
+            <br>
+            <span>Wait please</span>
+        </div>
+    </div>
+
+</div>
+
+<div *ngIf="!loading" class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="text-right">
+                    <button [routerLink]="['/doctor', 'new']" class="btn waves-effect btn-rounded btn-primary">
+                        <em class="fa fa-plus"></em> Create doctor
+                    </button>
+                </div>
+
+                <h3 class="card-title">Doctors registered ( <small>{{ totalDoctors }}</small> )</h3>
+
+                <table class="table table-hover">
+                    <thead>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Hospital</th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let doctor of doctors">
+                            <td class="w70">
+                                <img (click)="showModal( doctor._id )" [src]="doctor.img | image: 'doctor'" class="img-50 img-circle pointer" alt="Doctor image">
+                            </td>
+                            <td>
+                                <input #name name="name" class="form-control" [(ngModel)]="doctor.name">
+                            </td>
+                            <td>
+                                {{ doctor.hospital.name }}
+                            </td>
+                            <td>
+                                <button [routerLink]="['/doctor', doctor._id]" class="btn btn-primary">
+                                    <em class="fa fa-edit"></em>
+                                </button>
+                                <button (click)="deleteDoctor( doctor )" class="btn btn-danger">
+                                    <em class="fa fa-trash-o"></em>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button (click)="changeFrom(-5)" class="btn btn-secondary">
+                    Previous
+                </button>
+                <button (click)="changeFrom(5)" class="btn btn-secondary">
+                    Next
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

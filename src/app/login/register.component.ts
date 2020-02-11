@@ -49,14 +49,6 @@ export class RegisterComponent implements OnInit {
       password2: new FormControl( null, Validators.required ),
       terms: new FormControl( false )
     }, { validators: this.equalFields( 'password1', 'password2' ) });
-
-    this.form.setValue({
-      name: "Adrian",
-      email: "adrian@adrian.com",
-      password1: "12341234",
-      password2: "12341234",
-      terms: false
-    })
     
   }
 

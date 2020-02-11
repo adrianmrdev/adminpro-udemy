@@ -1,0 +1,45 @@
+<div class="row animated fadeIn">
+    <div class="col-md-6">
+        <div class="card card-body">
+            <h3 class="box-title m-b-0">Doctor: {{ doctor.name }}</h3>
+            <div class="row">
+                <div class="col-sm-12 col-xs-12">
+                    <form #f=ngForm ngNativeValidate (ngSubmit)="saveDoctor(f)">
+                        <div class="form-group">
+                            <label>Doctor Name</label>
+                            <input [(ngModel)]="doctor.name" name="name" type="text" class="form-control" placeholder="Enter Doctor Name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Hospital</label>
+                            <select (change)="changeHospital( $event.target.value )" [(ngModel)]="doctor.hospital" name="hospital" class="form-control" required>
+                                <option value="">Select hospital</option>
+                                <option *ngFor="let hospital of hospitals" [value]="hospital._id"> {{ hospital.name }} </option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                            <em class="fa fa-save"></em>Save
+                        </button>
+                        <a routerLink="/doctors" class="btn btn-inverse waves-effect waves-light">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> 
+    
+    <div class="col-md-3">
+        <div class="card card-body">
+            <h4 class="box-title m-b-0">HOSPITAL</h4>
+            <img [src]="hospital.img | image: 'hospital'" alt="Hospital image" class="rounded img-fluid">
+        </div>
+    </div>
+
+    <div class="col-md-3" *ngIf="doctor._id">
+        <div class="card card-body">
+            <h4 class="box-title m-b-0">Photo</h4>
+            <img (click)="changeImg()"[src]="doctor.img | image: 'doctor'" alt="" class="img-circle img-fluid pointer">
+        </div>
+    </div>
+
+</div>
