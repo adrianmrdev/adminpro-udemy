@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/service.index';
 import { ModalUploadService } from 'src/app/components/modal-upload/modal-upload.service';
+import Swal from 'sweetalert2';
 
 declare var swal: any;
 
@@ -70,19 +71,20 @@ export class UsersComponent implements OnInit {
   deleteUser(user: User){
 
     if ( user._id === this._userService.user._id ){
-      swal('Can\'t delete user', 'You can not delete yourself', 'error');
+      Swal.fire('Can\'t delete user', 'You can not delete yourself', 'error');
       return;
     }
 
-    swal({
+    Swal.fire({
       title: "Are you sure?",
       text: 'Once deleted, you will not be able to recover '+ user.name +' information!',
       icon: 'warning',
-      buttons: true,
-      dangerMode: true
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
     })
     .then( (willDelete) => {
-      if ( willDelete) {
+      if ( willDelete.value ) {
         this._userService.deleteUser( user._id )
                     .subscribe( deleted =>{
                       console.log( deleted );

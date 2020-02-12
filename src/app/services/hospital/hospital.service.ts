@@ -3,7 +3,7 @@ import { URL_API } from 'src/app/config/config';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from '../user/user.service';
 import { map } from 'rxjs/operators';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 import { Hospital } from 'src/app/models/hospital.model';
 
 @Injectable({
@@ -36,7 +36,7 @@ export class HospitalService {
 
     return this.http.post( url, hospital )
       .pipe(map( (resp: any) => {
-        swal('Hospital created', hospital.name, 'success');
+        Swal.fire('Hospital created', hospital.name, 'success');
         return resp.hospital;
       }));
   }
@@ -49,7 +49,7 @@ export class HospitalService {
     return this.http.put( url, hospital )
     .pipe(map( (resp: any) => {
 
-      swal('Hospital updated', hospital.name, 'success');
+      Swal.fire('Hospital updated', hospital.name, 'success');
 
       return hospital;
 
@@ -69,7 +69,7 @@ export class HospitalService {
 
     return this.http.delete( url )
       .pipe(map ((resp: any) => {
-        swal('Hospital deleted', 'Hospital deleted correctly', 'success');
+        Swal.fire('Hospital deleted', 'Hospital deleted correctly', 'success');
       } ));
   }
 

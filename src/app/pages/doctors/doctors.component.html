@@ -47,7 +47,7 @@
                     <tbody>
                         <tr *ngFor="let doctor of doctors">
                             <td class="w70">
-                                <img (click)="showModal( doctor._id )" [src]="doctor.img | image: 'doctor'" class="img-50 img-circle pointer" alt="Doctor image">
+                                <img [src]="doctor.img | image: 'doctor'" class="img-50 img-circle pointer" alt="Doctor image">
                             </td>
                             <td>
                                 <input #name name="name" class="form-control" [(ngModel)]="doctor.name">

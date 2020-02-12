@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Hospital } from 'src/app/models/hospital.model';
 import { HospitalService } from 'src/app/services/service.index';
 import { ModalUploadService } from 'src/app/components/modal-upload/modal-upload.service';
+import Swal from 'sweetalert2';
 
 declare var swal: any;
 
@@ -69,15 +70,16 @@ export class HospitalsComponent implements OnInit {
 
   deleteHospital(hospital: Hospital){
 
-    swal({
+    Swal.fire({
       title: "Are you sure?",
       text: 'Once deleted, you will not be able to recover '+ hospital.name +' information!',
       icon: 'warning',
-      buttons: true,
-      dangerMode: true
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
     })
     .then( (willDelete) => {
-      if ( willDelete) {
+      if ( willDelete.value ) {
         this._hospitalService.deleteHospital( hospital._id )
                     .subscribe( deleted =>{
                       console.log( deleted );
@@ -97,32 +99,28 @@ export class HospitalsComponent implements OnInit {
     this._modalUploadService.showModal('hospitals', id);
   }
 
-  createHospital(){
-    swal({
-      title: "New Hospital",
-      text: "Write hospital name:",
-      content: "input",
-      button: {
-        text: "Create",
-        closeModal: false,
-      },
-    }).then( ( name ) => {
-        if ( !name ) throw null;
-        
-        let hospital = new Hospital( name );
 
-        return this._hospitalService.createHospital( hospital );
-        
-    }).then( (newHospitalObs) => {
-      newHospitalObs.subscribe( res => this.loadHospitals() );
-    }).catch( err => {
-      if (err) {
-        swal("Oh noes!", "Hospital creation failed!", "error");
-      } else {
-        swal.stopLoading();
-        swal.close();
+  async createHospital(){
+
+    const { value: name } = await Swal.fire({
+      title: 'Enter new hospital name',
+      input: 'text',
+      inputValue: '',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        if (!value) {
+          return 'You need to write something!'
+        }
       }
-    });
+    })
+        
+    if ( !name ) return false;
+
+    let hospital = new Hospital( name );
+
+    this._hospitalService.createHospital( hospital )
+            .subscribe( res => this.loadHospitals() );
+
   }
 
 }

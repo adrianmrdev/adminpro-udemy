@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { URL_API } from 'src/app/config/config';
 import { map } from 'rxjs/operators';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 import { UserService } from '../user/user.service';
 import { Doctor } from 'src/app/models/doctor.model';
 
@@ -41,7 +41,7 @@ export class DoctorService {
 
     return this.http.delete( url )
       .pipe(map ((resp: any) => {
-        swal('Doctor deleted', 'Doctor deleted correctly', 'success');
+        Swal.fire('Doctor deleted', 'Doctor deleted correctly', 'success');
       } ));
   }
 
@@ -55,7 +55,7 @@ export class DoctorService {
 
       return this.http.post( url, doctor )
           .pipe(map( (resp: any) => {
-              swal('Doctor created', doctor.name, 'success');
+              Swal.fire('Doctor created', doctor.name, 'success');
               return resp.doctor;
           }));
 
@@ -66,7 +66,7 @@ export class DoctorService {
 
       return this.http.put( url, doctor )
           .pipe(map( (resp: any) => {
-              swal('Doctor updated', doctor.name, 'success');
+              Swal.fire('Doctor updated', doctor.name, 'success');
               return resp.doctor;
           }));
 

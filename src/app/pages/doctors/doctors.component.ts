@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DoctorService } from 'src/app/services/service.index';
 import { Doctor } from 'src/app/models/doctor.model';
+import Swal from 'sweetalert2';
 
 declare var swal: any;
 
@@ -64,15 +65,16 @@ export class DoctorsComponent implements OnInit {
 
   deleteDoctor(doctor: Doctor){
 
-    swal({
+    Swal.fire({
       title: "Are you sure?",
       text: 'Once deleted, you will not be able to recover '+ doctor.name +' information!',
       icon: 'warning',
-      buttons: true,
-      dangerMode: true
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
     })
     .then( (willDelete) => {
-      if ( willDelete) {
+      if ( willDelete.value ) {
         this._doctorService.deleteDoctor( doctor._id )
                     .subscribe( deleted =>{
                       console.log( deleted );

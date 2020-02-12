@@ -5,7 +5,7 @@ import { URL_API } from '../../config/config';
 
 import { map, catchError } from 'rxjs/operators';
 
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { UploadFileService } from '../uploadFile/upload-file.service';
 import { throwError } from 'rxjs';
@@ -25,6 +25,25 @@ export class UserService {
     public _uploadFileService: UploadFileService
   ) {
     this.loadUserStorage();
+  }
+
+  renewToken(){
+    let url = URL_API + '/login/renewtoken/';
+    url += '?token=' + this.token;
+
+    return this.http.get( url )
+              .pipe( map( (resp: any) => {
+                  this.token = resp.token;
+                  localStorage.setItem('token', this.token);
+
+                  return true;
+                }),
+                catchError( err => {
+                  this.router.navigate(['/login']);
+                  Swal.fire( 'Token renewal failed', 'Could not renew token', 'error' )
+                  return throwError( err );
+                })
+              );
   }
 
   isLogged() {
@@ -83,7 +102,7 @@ export class UserService {
           return true;
         }),
         catchError( err => {
-          swal( 'Error on login', err.error.message, 'error' );
+          Swal.fire( 'Error on login', err.error.message, 'error' );
           return throwError( err );
         })
       )
@@ -107,11 +126,11 @@ export class UserService {
 
     return this.http.post( url, user )
       .pipe(map( (resp: any) => {
-          swal('User created', user.email, 'success');
+          Swal.fire('User created', user.email, 'success');
           return resp.user;
         }),
         catchError( err => {
-          swal( err.error.message, err.error.errors.message, 'error' );
+          Swal.fire( err.error.message, err.error.errors.message, 'error' );
           return throwError( err );
         })
       );
@@ -130,13 +149,13 @@ export class UserService {
           this.saveUserStorage( resp.user._id, this.token, resp.user, this.menu);
         }
 
-        swal('User updated', user.email, 'success');
+        Swal.fire('User updated', user.email, 'success');
 
         return user;
 
       }),
       catchError( err => {
-        swal( err.error.message, err.error.errors.message, 'error' );
+        Swal.fire( err.error.message, err.error.errors.message, 'error' );
         return throwError( err );
       })
     );
@@ -148,7 +167,7 @@ export class UserService {
     this._uploadFileService.uploadFile( file, 'users', id)
           .then( (resp: any) =>{
             this.user.img = resp.user.img;
-            swal( 'Image updated', this.user.name, 'success');
+            Swal.fire( 'Image updated', this.user.name, 'success');
 
             this.saveUserStorage( id, this.token, this.user, this.menu);
             
@@ -176,7 +195,7 @@ export class UserService {
 
     return this.http.delete( url )
       .pipe(map ((resp: any) => {
-        swal('User deleted', 'User deleted correctly', 'success');
+        Swal.fire('User deleted', 'User deleted correctly', 'success');
       } ));
   }
 

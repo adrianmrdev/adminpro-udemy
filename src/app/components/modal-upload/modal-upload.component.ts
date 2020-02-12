@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 import { UploadFileService } from 'src/app/services/service.index';
 import { ModalUploadService } from './modal-upload.service';
 
@@ -29,7 +29,7 @@ export class ModalUploadComponent implements OnInit {
     }
 
     if ( file.type.indexOf('image') < 0){
-      swal('Only images', 'Selected file is not an image', 'error');
+      Swal.fire('Only images', 'Selected file is not an image', 'error');
       this.uploadedImg = null;
       return;
     }
