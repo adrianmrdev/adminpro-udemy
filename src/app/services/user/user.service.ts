@@ -3,10 +3,12 @@ import { User } from 'src/app/models/user.model';
 import { HttpClient } from '@angular/common/http';
 import { URL_API } from '../../config/config';
 
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
+
 import swal from 'sweetalert';
 import { Router } from '@angular/router';
 import { UploadFileService } from '../uploadFile/upload-file.service';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +17,7 @@ export class UserService {
 
   user: User;
   token: string;
+  menu: any = [];
 
   constructor(
     public http: HttpClient,
@@ -32,20 +35,24 @@ export class UserService {
     if (localStorage.getItem('token')) {
       this.token = localStorage.getItem('token');
       this.user = JSON.parse(localStorage.getItem('user'));
+      this.menu = JSON.parse(localStorage.getItem('menu'));
     } else {
       this.token = '';
       this.user = null;
+      this.menu = [];
     }
   }
 
-  saveUserStorage( id: string, token: string, user: User){
+  saveUserStorage( id: string, token: string, user: User, menu: any){
     
     localStorage.setItem('id', id);
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('menu', JSON.stringify(menu));
 
     this.user = user;
     this.token = token;
+    this.menu = menu;
 
   }
 
@@ -55,7 +62,7 @@ export class UserService {
     return this.http.post(url, { token })
       .pipe(map( (resp: any) => {
         
-        this.saveUserStorage( resp.id, resp.token, resp.user);
+        this.saveUserStorage( resp.id, resp.token, resp.user, resp.menu);
 
         return true;
       }));
@@ -71,12 +78,16 @@ export class UserService {
 
     let url = URL_API + "/login";
     return this.http.post( url, user)
-      .pipe(map( (resp: any) => {
-
-        this.saveUserStorage( resp.id, resp.token, resp.user);
-
-        return true;
-      }));
+      .pipe( map( (resp: any) => {
+          this.saveUserStorage( resp.id, resp.token, resp.user, resp.menu);
+          return true;
+        }),
+        catchError( err => {
+          swal( 'Error on login', err.error.message, 'error' );
+          return throwError( err );
+        })
+      )
+      
   }
 
   logout() {
@@ -86,6 +97,7 @@ export class UserService {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('id');
+    localStorage.removeItem('menu');
 
     this.router.navigate(['/login']);
   }
@@ -95,9 +107,14 @@ export class UserService {
 
     return this.http.post( url, user )
       .pipe(map( (resp: any) => {
-        swal('User created', user.email, 'success');
-        return resp.user;
-      }));
+          swal('User created', user.email, 'success');
+          return resp.user;
+        }),
+        catchError( err => {
+          swal( err.error.message, err.error.errors.message, 'error' );
+          return throwError( err );
+        })
+      );
 
   }
 
@@ -109,15 +126,20 @@ export class UserService {
     return this.http.put( url, user )
     .pipe(map( (resp: any) => {
 
-      if ( user._id === this.user._id) {
-        this.saveUserStorage( resp.user._id, this.token, resp.user);
-      }
+        if ( user._id === this.user._id) {
+          this.saveUserStorage( resp.user._id, this.token, resp.user, this.menu);
+        }
 
-      swal('User updated', user.email, 'success');
+        swal('User updated', user.email, 'success');
 
-      return user;
+        return user;
 
-    }));
+      }),
+      catchError( err => {
+        swal( err.error.message, err.error.errors.message, 'error' );
+        return throwError( err );
+      })
+    );
 
   }
 
@@ -128,7 +150,7 @@ export class UserService {
             this.user.img = resp.user.img;
             swal( 'Image updated', this.user.name, 'success');
 
-            this.saveUserStorage( id, this.token, this.user );
+            this.saveUserStorage( id, this.token, this.user, this.menu);
             
           })
           .catch( (error: any) => {

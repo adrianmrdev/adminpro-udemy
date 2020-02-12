@@ -7,6 +7,7 @@ import { UploadFileService } from './uploadFile/upload-file.service';
 import { ModalUploadService } from '../components/modal-upload/modal-upload.service';
 import { HospitalService } from './hospital/hospital.service';
 import { DoctorService } from './doctor/doctor.service';
+import { AdminGuard } from './guards/admin.guard';
 
 @NgModule({
   declarations: [],
@@ -20,10 +21,11 @@ import { DoctorService } from './doctor/doctor.service';
     SidebarService,
     UserService,
     LoginGuard,
+    AdminGuard,
     UploadFileService,
     HospitalService,
     DoctorService,
-    ModalUploadService
+    ModalUploadService,
   ]
 })
 export class ServiceModule { }

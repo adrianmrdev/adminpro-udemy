@@ -1,0 +1,95 @@
+<div class="row">
+
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+    
+                <h4 class="card-title">Users</h4>
+
+                <table *ngIf="users.length > 0" class="table table-hover">
+                    <tbody>
+                        <tr *ngFor="let user of users">
+                            <td>
+                                <img [src]="user.img | image: 'user'" class="img-50 img-circle pointer" alt="">
+                            </td>
+                            <td>
+                                {{ user.name }}
+                            </td>
+                            <td>
+                                <button [routerLink]="['/users']" class="btn btn-primary">
+                                    <em class="fa fa-edit"></em>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div *ngIf="users.length === 0" class="alert alert-info">
+                    No users
+                </div>
+    
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+    
+                <h4 class="card-title">Doctors</h4>
+
+                <table *ngIf="doctors.length > 0" class="table table-hover">
+                    <tbody>
+                        <tr *ngFor="let doctor of doctors">
+                            <td>
+                                <img [src]="doctor.img | image: 'doctor'" class="img-50 img-circle pointer" alt="">
+                            </td>
+                            <td>
+                                {{ doctor.name }}
+                            </td>
+                            <td>
+                                <button [routerLink]="['/doctor', doctor._id]" class="btn btn-primary">
+                                    <em class="fa fa-edit"></em>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="doctors.length === 0" class="alert alert-info">
+                    No doctors
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+    
+                <h4 class="card-title">Hospitals</h4>
+
+                <table *ngIf="hospitals.length > 0" class="table table-hover">
+                    <tbody>
+                        <tr *ngFor="let hospital of hospitals">
+                            <td>
+                                <img [src]="hospital.img | image: 'hospital'" class="img-50 img-circle pointer" alt="">
+                            </td>
+                            <td>
+                                {{ hospital.name }}
+                            </td>
+                            <td>
+                                <button [routerLink]="['/hospitals']" class="btn btn-primary">
+                                    <em class="fa fa-edit"></em>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="hospitals.length === 0" class="alert alert-info">
+                    No hospitals
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
